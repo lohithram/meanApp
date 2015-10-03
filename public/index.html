@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Iceberg Search</title>
+</head>
+<body>
+
+<div ng-controller="MainCtrl">
+
+	<h1>Iceberg Movies</h1>
+
+	<form class="form-inline">
+      <input ng-model="query" type="text"
+        placeholder="Search for movies" autofocus>
+    </form>
+    <ul ng-repeat="movie in movies | filter:query | orderBy: 'title' ">
+      <li>{{movie.title}}</li>
+    </ul>
+</div>
+
+<script src="js/lib/angular.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
