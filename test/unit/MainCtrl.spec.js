@@ -2,11 +2,16 @@ describe('MainCtrl', function() {
 
     beforeEach(module('app'));
 
-    var $controller;
+    var $controller,
+        $httpBackend;
 
-    beforeEach(inject(function(_$controller_){
-        // The injector unwraps the underscores (_) from around the parameter names when matching
-        $controller = _$controller_;
+    beforeEach(inject(function($injector){
+
+        $httpBackend = $injector.get('$httpBackend');
+        $controller = $injector.get('$controller');
+
+        $httpBackend.expectGET('/api/movies?itemsPerPage=5&page=1').respond(200, {movies: {}});
+        $httpBackend.expectGET('/api/movies/search?itemsPerPage=5&page=1&search=abc').respond(200, {movies: {}});
     }));
 
     describe('Testing MainCtrl', function() {
@@ -39,6 +44,16 @@ describe('MainCtrl', function() {
             $scope.query = 'abc';
             $scope.onQueryChange();
             expect($scope.userMessage).toBeFalsy();
+        });
+
+        it('Check if search query is fired when query string is entered by user', function() {
+
+            $scope.query = 'abc';
+
+            $scope.onQueryChange();
+            //$httpBackend.flush();
+
+            //expect($scope.movies).not.toBeUndefined();
         });
 
         it('Test formatting of getDuration', function() {
@@ -77,6 +92,13 @@ describe('MainCtrl', function() {
             $scope.fetchPage(4);
 
             expect($scope.page).toEqual(4);
+        });
+
+        afterEach(function() {
+
+            //TODO: Uncomment after proper expectations added to the test cases
+            //$httpBackend.verifyNoOutstandingExpectation();
+            //$httpBackend.verifyNoOutstandingRequest();
         });
 
     });
