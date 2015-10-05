@@ -46,7 +46,7 @@
 
 			var hours = Math.floor(duration/60/60);
 			var minutes = (duration/60) - (hours*60);
-			return hours + (hours == 1 ? "hr " : "hrs ") + minutes + (minutes == 1 ? "min " : "mins ");
+			return hours + (hours == 1 ? "hr " : "hrs ") + minutes + (minutes == 1 ? "min" : "mins");
 		};
 
 		$scope.onQueryChange = function() {

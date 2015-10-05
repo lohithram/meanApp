@@ -10,7 +10,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome'
   },
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'http://localhost:8000',
   allScriptsTimeout: 500000,
   restartBrowserBetweenTests: false,
 
