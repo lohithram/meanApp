@@ -1,26 +1,86 @@
 <!doctype html>
 <html lang="en" ng-app="app">
 <head>
-    <meta charset="UTF-8">
     <title>Iceberg Search</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- JQuery needed for bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/lib/angular.js"></script>
+    <script src="js/services/DataService.js"></script>
+    <script src="js/app.js"></script>
+
+
 </head>
 <body>
 
-<div ng-controller="MainCtrl">
+	<div class="panel panel-info" ng-controller="MainCtrl">
+        <div class='panel-heading'>
+            <h2>Iceberg Movies</h2>
+        </div>
 
-	<h1>Iceberg Movies</h1>
+        <div class='panel-body'>
+            <form class="form-inline">
+                <input style="max-width: 300px" class="form-control" type="text"
+                       placeholder="Search for movies" autofocus
+                       ng-model="query"
+                       ng-change="onQueryChange()"
+                        >
+                <div style="padding: 6px" class="btn-group" data-toggle="buttons">
+                    <label title="Display 5 items per page" class="btn btn-default active" ng-click="setItemsPerPage(5)">
+                        <input type="radio" name="options" id="option1"> 5
+                    </label>
+                    <label title="Display 10 items per page" class="btn btn-default" ng-click="setItemsPerPage(10)">
+                        <input type="radio" name="options" id="option2" > 10
+                    </label>
+                    <label title="Display 20 items per page" class="btn btn-default" ng-click="setItemsPerPage(20)">
+                        <input type="radio" name="options" id="option3"> 20
+                    </label>
+                </div>
+                <p style="color: #9e9e9e;"><span style="white-space: pre">{{userMessage ? userMessage : ' '}}</span></p>
+            </form>
 
-	<form class="form-inline">
-      <input ng-model="query" type="text"
-        placeholder="Search for movies" autofocus>
-    </form>
-    <ul ng-repeat="movie in movies | filter:query | orderBy: 'title' ">
-      <li>{{movie.title}}</li>
-    </ul>
-</div>
+            <div ng-if="resultCount" style="display: flex flex-wrap: wrap align-items: center">
+                <h5>Matched <strong>{{resultCount}}</strong> of {{totalCount}} movies total</h5>
 
-<script src="js/lib/angular.js"></script>
-<script src="js/app.js"></script>
+                <span style="padding-right: 8px" ng-repeat="pageNumber in pages">
+                    <a href="#"
+                       class="lead"
+                       ng-class="{small: (pageNumber !== page)}"
+                       ng-click="fetchPage($index+1)">{{pageNumber}}</a>
+                </span>
+            </div>
+
+            <h5 ng-if="!resultCount">No movies matching your search query.</h5>
+
+            <table class='table table-striped'>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Rating</th>
+                    <th>Duration</th>
+                    <th>Actors</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="movie in movies | orderBy: 'title' ">
+                        <td>{{movie.title}}</td>
+                        <td>{{movie.year}}</td>
+                        <td style="text-align: center">{{movie.rating}}</td>
+                        <td style="text-align: center">{{getDuration(movie.duration)}}</td>
+                        <td>{{getActors(movie)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+    </div>
+
 
 </body>
 </html>
