@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 
+loadList();
 
 exports.movieList = function(req, res){
 
@@ -54,7 +55,7 @@ function getPageSet(req, movieList){
 // store the complete list of movies
 // which is fine since we have a non-dynamic list of movies here
 // contains sorted list(improves performance);
-var allMoviesList;
+var allMoviesList = [];
 
 /**
  * Loads the movies from the data file.
@@ -89,10 +90,8 @@ function sendResponse(req, res, movies, resultCount){
         "resultCount": resultCount,
         "page": req.query.page,
         "totalCount": allMoviesList.length,
-        "itemsPerPage": req.query.itemsPerPage
+        "itemsPerPage": Number(req.query.itemsPerPage)
         });
 }
 
-
-loadList();
 

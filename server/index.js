@@ -13,6 +13,8 @@ app.use(express.static(__dirname + '/../public'));
 app.get('/api/movies', moviesController.movieList);
 app.get('/api/movies/search', moviesController.searchMovies);
 
-app.listen(8000, function(){
+var server = app.listen(8000, function(){
 	console.log('App started on port 8000!');
 });
+
+module.exports = server;
