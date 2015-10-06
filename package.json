@@ -25,8 +25,6 @@
     "browserify": "browserify -r ./public/js/**/*.js -o ./public/dist/bundle.js",
     "e2e": "protractor protractor.conf.js",
     "unit": "karma start karma.conf.js",
-    "server-unit": "mocha test/server/**/*.spec.js",
-    "gulp": "gulp",
-    "development": "gulp"
+    "server-unit": "mocha test/server/**/*.spec.js"
   }
 }
